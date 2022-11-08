@@ -22,6 +22,7 @@ jobs:
   lint-clang-format:
     env:
       esphome_directory: esphome
+      esphome_version: 2022.10.2
     runs-on: ubuntu-latest
     # cpp lint job runs with esphome-lint docker image so that clang-format-*
     # doesn't have to be installed
@@ -32,7 +33,7 @@ jobs:
       # (build flags, libraries etc)
 
       - name: 💣 Clone esphome project
-        run: git clone https://github.com/esphome/esphome.git
+        run: git clone -b ${{ env.esphome_version }} https://github.com/esphome/esphome.git
       - name: 💣 Copy component into the esphome project
         run: |
           cp -r ../components/* esphome/components/
@@ -57,15 +58,16 @@ jobs:
   lint-clang-tidy:
     env:
       esphome_directory: esphome
+      esphome_version: 2022.10.2
     runs-on: ubuntu-latest
     # cpp lint job runs with esphome-lint docker image so that clang-format-*
     # doesn't have to be installed
-    container: esphome/esphome-lint:latest
+    container: esphome/esphome-lint:${{ env.esphome_version }}
     steps:
       - uses: actions/checkout@v2
 
       - name: 💣 Clone esphome project
-        run: git clone https://github.com/esphome/esphome.git
+        run: git clone -b ${{ env.esphome_version }} https://github.com/esphome/esphome.git
       - name: 💣 Copy component into the esphome project
         run: |
           cp -r ../components/* esphome/components/
@@ -98,6 +100,7 @@ jobs:
   lint-python:
     env:
       esphome_directory: esphome
+      esphome_version: 2022.10.2
     # Don't use the esphome-lint docker image because it may contain outdated requirements.
     # This way, all dependencies are cached via the cache action.
     runs-on: ubuntu-latest
@@ -116,7 +119,7 @@ jobs:
             esphome-pip-3.9-
 
       - name: 💣Clone esphome project
-        run: git clone https://github.com/esphome/esphome.git
+        run: git clone -b ${{ env.esphome_version }} https://github.com/esphome/esphome.git
       - name: 💣Copy component into the esphome project
         run: |
           cp -r ../components/* esphome/components/
