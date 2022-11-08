@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     # cpp lint job runs with esphome-lint docker image so that clang-format-*
     # doesn't have to be installed
-    container: esphome/esphome-lint:${{ env.esphome_version }}
+    container: esphome/esphome-lint:latest
     steps:
       - uses: actions/checkout@v2
 
