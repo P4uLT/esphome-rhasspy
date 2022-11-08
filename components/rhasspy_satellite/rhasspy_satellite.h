@@ -12,6 +12,5 @@ class RhasspySatelliteComponent : public Component {
   void dump_config() override;
 };
 
-
 }  // namespace rhasspy_satellite
 }  // namespace esphome
