@@ -5,9 +5,9 @@
       // ESPHome version
       "esphome_version": "2022.10.2",
       // additional APT dependicies
-      "apt_deps": "bash-completion less",
+      "apt_deps": "bash-completion less clang-format",
       // additional PIP dependicies
-      "pip_deps": ""
+      "pip_deps": "pre-commit"
     }
   },
   "runArgs": [
