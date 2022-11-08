@@ -84,6 +84,6 @@
     "source=vscode-${containerWorkspaceFolderBasename},target=${containerWorkspaceFolder}/.pio,type=volume",
     "source=vscode-${containerWorkspaceFolderBasename},target=/esphome/.temp,type=volume",
     "source=vscode-${containerWorkspaceFolderBasename},target=${containerWorkspaceFolder}/lib/.esphome,type=volume",
-    "source=vscode-${containerWorkspaceFolderBasename},target=${containerWorkspaceFolder}/lib/miot/.esphome,type=volume"
+    "source=vscode-${containerWorkspaceFolderBasename},target=${containerWorkspaceFolder}/lib/rhasspy_satellite/.esphome,type=volume"
   ]
 }
