@@ -26,20 +26,17 @@ INMP441_STREAM_CONFIG_SCHEMA = cv.Schema(
 )
 
 
-CONFIG_SCHEMA = cv.Schema(
-    {
-        cv.GenerateID(): cv.declare_id(Inmp441StreamComponent),
-        cv.Required(CONF_I2S_SCK_PIN): pins.internal_gpio_output_pin_number,
-        cv.Required(CONF_I2S_WS_PIN): pins.internal_gpio_output_pin_number,
-        cv.Required(CONF_I2S_SD_PIN): pins.internal_gpio_output_pin_number,
-    }
-).extend(cv.COMPONENT_SCHEMA)
-
-# .extend(cv.only_with_arduino)
-
-# CONFIG_SCHEMA = cv.Schema({
-#     cv.GenerateID(): cv.declare_id(Inmp441StreamComponent)
-# }).extend(cv.COMPONENT_SCHEMA)
+CONFIG_SCHEMA = cv.All(
+    cv.Schema(
+        {
+            cv.GenerateID(): cv.declare_id(Inmp441StreamComponent),
+            cv.Required(CONF_I2S_SCK_PIN): pins.internal_gpio_output_pin_number,
+            cv.Required(CONF_I2S_WS_PIN): pins.internal_gpio_output_pin_number,
+            cv.Required(CONF_I2S_SD_PIN): pins.internal_gpio_output_pin_number,
+        }
+    ).extend(cv.COMPONENT_SCHEMA),
+    cv.only_with_arduino,
+)
 
 
 def to_code(config):
@@ -51,5 +48,8 @@ def to_code(config):
     if CORE.is_esp32:
         cg.add_library("WiFiClientSecure", None)
         cg.add_library("HTTPClient", None)
-        cg.add_library("https://github.com/pschatzmann/arduino-audio-tools", None)
+        cg.add_library(
+            "https://github.com/pschatzmann/arduino-audio-tools#265159d",
+            None,  # v0.9.2
+        )
         cg.add_library("https://github.com/digint/tinyfsm", None)

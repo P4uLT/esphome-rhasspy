@@ -11,10 +11,10 @@ class Inmp441StreamComponent;
 
 class Inmp441StreamComponentSwitch : public switch_::Switch, public Component {
  public:
+  void setup() override;
   void set_parent(Inmp441StreamComponent *parent) { this->parent_ = parent; };
   void dump_config() override;
-  void loop() override {}
-  float get_setup_priority() const override { return setup_priority::DATA; }
+  float get_setup_priority() const override { return setup_priority::HARDWARE; }
 
  protected:
   void write_state(bool state) override;
