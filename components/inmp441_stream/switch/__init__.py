@@ -1,15 +1,13 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import switch
-from esphome.const import CONF_ICON, CONF_ID
+from esphome.const import CONF_ICON, CONF_OUTPUT
 
 from .. import CONF_INMP441_STREAM_ID, INMP441_STREAM_CONFIG_SCHEMA, inmp441_stream_ns
 
 DEPENDENCIES = ["inmp441_stream"]
 
 ICON_OUTPUT = "mdi:power"
-
-CONF_OUTPUT = "output"
 
 Inmp441StreamComponentSwitch = inmp441_stream_ns.class_(
     "Inmp441StreamComponentSwitch", switch.Switch, cg.Component
