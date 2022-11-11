@@ -48,7 +48,7 @@ jobs:
         working-directory: ${{ env.esphome_directory }}
 
       - name: Run clang-format
-        run: script/clang-format -i
+        run: script/clang-format -i git diff-index --quiet HEAD --
         working-directory: ${{ env.esphome_directory }}
 
       - name: Suggest changes
@@ -91,7 +91,8 @@ jobs:
       - name: Add missing pexpect
         run: pip install pexpect
       - name: Run lint-cpp
-        run: script/lint-cpp -c
+        run: |
+          script/clang-tidy --all-headers --fix --environment esp32-arduino-tidy
         working-directory: ${{ env.esphome_directory }}
       - name: Suggest changes
         run: script/ci-suggest-changes
