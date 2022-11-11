@@ -7,21 +7,25 @@ namespace inmp441_stream {
 
 static const char *const TAG = "inmp441_stream.component";
 
-audio_tools::I2SStream in;
-audio_tools::I2SStream out;
+// audio_tools::I2SStream in;
+// audio_tools::I2SStream out;
 
 // Effect
 // Boost boost(1);
 // AudioEffects<GeneratorFromStream<effect_t>> effects(in,channels,1.0);
 // GeneratedSoundStream<int16_t> in_boosted(effects);
 
-Inmp441StreamComponent::Inmp441StreamComponent() { this->copier_ = make_unique<StreamCopy>(); }
+Inmp441StreamComponent::Inmp441StreamComponent() {
+  this->in_ = make_unique<I2SStream>();
+  this->out_ = make_unique<I2SStream>();
+  this->copier_ = make_unique<StreamCopy>();
+}
 
 void Inmp441StreamComponent::setup() {
   ESP_LOGCONFIG(TAG, "Setting up Audio...");
 
   // start I2S in
-  audio_tools::I2SConfig config_in = in.defaultConfig(RX_MODE);
+  audio_tools::I2SConfig config_in = in_->defaultConfig(RX_MODE);
   config_in.sample_rate = this->sample_rate_;
   config_in.bits_per_sample = this->bits_per_sample_;
   config_in.i2s_format = I2S_STD_FORMAT;
@@ -34,12 +38,12 @@ void Inmp441StreamComponent::setup() {
   config_in.pin_data = this->sd_pin_;
   // config_in.fixed_mclk = sample_rate * 256
   // config_in.pin_mck = 2
-  in.begin(config_in);
+  in_->begin(config_in);
 
   // effects.addEffect(boost);
 
   // start I2S out
-  audio_tools::I2SConfig config_out = out.defaultConfig(TX_MODE);
+  audio_tools::I2SConfig config_out = out_->defaultConfig(TX_MODE);
   config_out.sample_rate = this->sample_rate_;
   config_out.bits_per_sample = this->bits_per_sample_;
   ;
@@ -51,8 +55,8 @@ void Inmp441StreamComponent::setup() {
   config_out.pin_data = 23;
   config_out.use_apll = true,
 
-  out.begin(config_out);
-  this->copier_->begin(out, in);
+  out_->begin(config_out);
+  this->copier_->begin(*out_, *in_);
 }
 
 void Inmp441StreamComponent::loop() {

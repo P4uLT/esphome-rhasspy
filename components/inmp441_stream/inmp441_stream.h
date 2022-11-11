@@ -36,7 +36,10 @@ class Inmp441StreamComponent : public Component {
   void set_output_switch(switch_::Switch *output_switch) { output_switch_ = output_switch; }
 
  protected:
-  std::unique_ptr<StreamCopy> copier_;
+  std::unique_ptr<audio_tools::I2SStream> in_;
+  std::unique_ptr<audio_tools::I2SStream> out_;
+  std::unique_ptr<audio_tools::StreamCopy> copier_;
+
   binary_sensor::BinarySensor *mute_binary_sensor_{nullptr};
   switch_::Switch *output_switch_{nullptr};
 
