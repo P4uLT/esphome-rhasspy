@@ -4,7 +4,7 @@
 #include "esphome/components/binary_sensor/binary_sensor.h"
 #include "esphome/components/switch/switch.h"
 
-#include "AudioTools.h"
+#include <AudioTools.h>
 
 // #include "StateMachine.hpp"
 
