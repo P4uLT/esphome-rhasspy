@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     # cpp lint job runs with esphome-lint docker image so that clang-format-*
     # doesn't have to be installed
-    container: esphome/esphome-lint:latest
+    container: esphome/esphome-lint:2022.10.2
     steps:
       - uses: actions/checkout@v2
       # Set up the pio project so that the cpp checks know how files are compiled
@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     # cpp lint job runs with esphome-lint docker image so that clang-format-*
     # doesn't have to be installed
-    container: esphome/esphome-lint:latest
+    container: esphome/esphome-lint:2022.10.2
     steps:
       - uses: actions/checkout@v2
 
