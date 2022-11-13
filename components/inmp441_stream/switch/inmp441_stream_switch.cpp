@@ -1,4 +1,7 @@
 #include "inmp441_stream_switch.h"
+
+#ifdef USE_ESP32_FRAMEWORK_ARDUINO
+
 #include "esphome/core/log.h"
 #include "esphome/core/application.h"
 
@@ -17,3 +20,5 @@ void Inmp441StreamComponentSwitch::write_state(bool state) { this->publish_state
 
 }  // namespace inmp441_stream
 }  // namespace esphome
+
+#endif  // USE_ESP32_FRAMEWORK_ARDUINO

@@ -1,5 +1,7 @@
 #include "inmp441_stream.h"
 
+#ifdef USE_ESP32_FRAMEWORK_ARDUINO
+
 #include "esphome/core/log.h"
 
 namespace esphome {
@@ -80,3 +82,5 @@ void Inmp441StreamComponent::dump_config() {
 
 }  // namespace inmp441_stream
 }  // namespace esphome
+
+#endif  // USE_ESP32_FRAMEWORK_ARDUINO

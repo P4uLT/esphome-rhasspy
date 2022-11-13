@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef USE_ESP32_FRAMEWORK_ARDUINO
+
 #include "../inmp441_stream.h"
 #include "esphome/core/component.h"
 #include "esphome/components/switch/switch.h"
@@ -23,3 +25,5 @@ class Inmp441StreamComponentSwitch : public switch_::Switch, public Component {
 
 }  // namespace inmp441_stream
 }  // namespace esphome
+
+#endif  // USE_ESP32_FRAMEWORK_ARDUINO
