@@ -5,6 +5,7 @@ from esphome.const import CONF_ID, CONF_CHANNELS
 from esphome.core import CORE
 
 AUTO_LOAD = ["switch"]
+DEPENDENCIES = ["esp32"]
 
 
 inmp441_stream_ns = cg.esphome_ns.namespace("inmp441_stream")
