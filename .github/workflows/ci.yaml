@@ -93,8 +93,7 @@ jobs:
       - name: Add missing pexpect
         run: pip install pexpect
       - name: Run lint-cpp
-        run: |
-          script/clang-tidy -c --all-headers --fix --environment esp32-arduino-tidy
+        run: script/lint-cpp -c
         working-directory: ${{ env.esphome_directory }}
       - name: Suggest changes
         run: script/ci-suggest-changes
