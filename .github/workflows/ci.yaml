@@ -73,6 +73,13 @@ jobs:
       - name: 💣 Copy component into the esphome project
         run: |
           cp -r ../components/* esphome/components/
+        working-directory: ${{ env.esphome_directory }}
+
+      - name: Replace some dependencies before run
+        run: ./script/append.py
+
+      - name: Commit new changes for CI
+        run: |
           git config user.name "ci"
           git config user.email "ci@github.com"
           git add .
