@@ -76,7 +76,7 @@ jobs:
         working-directory: ${{ env.esphome_directory }}
 
       - name: Replace some dependencies before run
-        run: ./script/append.py
+        run: ./script/append.py -p ${{ env.esphome_directory }}
 
       - name: Commit new changes for CI
         run: |
