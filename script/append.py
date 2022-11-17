@@ -18,9 +18,7 @@ def main():
 
     args = parser.parse_args()
 
-    additionnal_libs_deps_file = os.path.join(
-        root_path, "script/additionnal_libs_deps.ini"
-    )
+    additionnal_libs_deps_file = os.path.join(root_path, "additionnal_libs_deps.ini")
 
     file = f"{root_path}/{args.path}/platformio.ini"
 
