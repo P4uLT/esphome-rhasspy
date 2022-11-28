@@ -58,10 +58,10 @@ def to_code(config):
     cg.add(var.set_bits_per_sample(config[CONF_BITS_PER_SAMPLE]))
 
     if CORE.is_esp32:
-        cg.add_platformio_option("platform", "platformio/espressif32 @ 5.2.0")
+        cg.add_platformio_option("platform", "platformio/espressif32 @ 4.2.0")
         cg.add_platformio_option(
             "platform_packages",
-            ["platformio/framework-arduinoespressif32 @ 3.20005.220925"],
+            ["platformio/framework-arduinoespressif32 @ 3.20002.220503"],
         )
         cg.add_library("WiFiClientSecure", None)
         cg.add_library("HTTPClient", None)
