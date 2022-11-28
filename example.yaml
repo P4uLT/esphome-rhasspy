@@ -1,0 +1,61 @@
+substitutions:
+  slug: esp32-i2s-audio-nodemcu
+  name: Esp32 I2S Audio Nodemcu
+  description: Esp32 I2S Audio Nodemcu
+esphome:
+  name: ${slug}
+  comment: ${name}
+  platform: ESP32
+  board: nodemcu-32s
+
+button:
+  - platform: restart
+    name: ${name} Restart
+
+binary_sensor:
+  - platform: status
+    name: ${name} Status
+
+  - platform: inmp441_stream
+    mute:
+      name: ${name} mute
+
+wifi:
+  ssid: "xxx"
+  password: "xxx"
+
+api:
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: ${name} IP Address
+    ssid:
+      name: ${name} Connected SSID
+    bssid:
+      name: ${name} Connected BSSID
+  - platform: version
+    id: text_sensor_version
+    name: ${name} ESPHome Version
+
+logger:
+
+web_server:
+  port: 80
+
+external_components:
+  - source:
+      path: components
+      type: local
+    components: all
+
+inmp441_stream:
+  - id: inmp441_stream_1
+    i2s_sck_pin: 14
+    i2s_ws_pin: 15
+    i2s_sd_pin: 22
+switch:
+  - platform: inmp441_stream
+    output:
+      name: ${name} output
+      icon: mdi:power
