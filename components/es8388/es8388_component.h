@@ -15,8 +15,8 @@ enum OutputType {
 class ES8388Component : public Component, public i2c::I2CDevice {
  public:
   void setup() override;
-  void mute(const OutputType out, const bool muted);
-  void volume(const OutputType out, const uint8_t vol);
+  void mute(OutputType out, bool muted);
+  void volume(OutputType out, uint8_t vol);
   float get_setup_priority() const override { return setup_priority::LATE - 1; }
 };
 
