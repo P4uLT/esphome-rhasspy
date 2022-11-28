@@ -149,7 +149,7 @@ void ES8388Component::setup() {
   PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO0_U, FUNC_GPIO0_CLK_OUT1);
   WRITE_PERI_REG(PIN_CTRL, READ_PERI_REG(PIN_CTRL) & 0xFFFFFFF0);
 
-  /* mute DAC during setup, power up all systems, slave mode */
+  /* mute DAC during setup, power up all systems, passive mode */
   this->write_bytes(ES8388_DACCONTROL3, {0x04});
   this->write_bytes(ES8388_CONTROL2, {0x50});
   this->write_bytes(ES8388_CHIPPOWER, {0x00});
