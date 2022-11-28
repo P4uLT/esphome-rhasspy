@@ -65,5 +65,7 @@ def to_code(config):
         )
         cg.add_library("WiFiClientSecure", None)
         cg.add_library("HTTPClient", None)
-        cg.add_library("https://github.com/pschatzmann/arduino-audio-tools", None)
+        cg.add_library(
+            "https://github.com/pschatzmann/arduino-audio-tools#2711b0f", None
+        )
         cg.add_library("https://github.com/digint/tinyfsm", None)
