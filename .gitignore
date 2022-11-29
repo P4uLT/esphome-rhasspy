@@ -26,3 +26,4 @@ CMakeLists.txt
 /.temp-clang-tidy.cpp
 
 /pylintrc
+/.build/

@@ -36,6 +36,8 @@ sedi "/src_dir/s/esphome/\./" ".esphome/$pio_ini"
 # replace ".temp" to ".esphome in "sdkconfig_path"
 sedi "/sdkconfig_path/s/.temp/.esphome/" ".esphome/$pio_ini"
 
+./script/append.py -p .
+
 # add project specific defines
 # defines=()
 # for d in "${defines[@]}" ; do
