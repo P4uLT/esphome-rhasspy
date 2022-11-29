@@ -1,0 +1,147 @@
+name: CI
+
+on: # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+  schedule:
+    - cron: 0 12 * * *
+
+jobs:
+  yamllint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: yaml-lint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          config_file: .yamllint
+
+  lint-clang-format:
+    env:
+      esphome_directory: esphome
+      esphome_version: 2022.10.2
+    runs-on: ubuntu-latest
+    # cpp lint job runs with esphome-lint docker image so that clang-format-*
+    # doesn't have to be installed
+    container: esphome/esphome-lint:latest
+    steps:
+      - uses: actions/checkout@v2
+      # Set up the pio project so that the cpp checks know how files are compiled
+      # (build flags, libraries etc)
+
+      - name: 💣 Clone esphome project
+        run: git clone -b ${{ env.esphome_version }} https://github.com/esphome/esphome.git
+      - name: 💣 Copy component into the esphome project
+        run: |
+          cp -r ../components/* esphome/components/
+          git config user.name "ci"
+          git config user.email "ci@github.com"
+          git add .
+          git commit -a -m "Add external component"
+        working-directory: ${{ env.esphome_directory }}
+
+      - name: Set up platformio environment
+        run: pio init --ide atom
+        working-directory: ${{ env.esphome_directory }}
+
+      - name: Run clang-format
+        run: script/clang-format -i
+        working-directory: ${{ env.esphome_directory }}
+
+      - name: Suggest changes
+        run: script/ci-suggest-changes
+        working-directory: ${{ env.esphome_directory }}
+
+  lint-clang-tidy:
+    env:
+      esphome_directory: esphome
+      esphome_version: 2022.10.2
+    runs-on: ubuntu-latest
+    # cpp lint job runs with esphome-lint docker image so that clang-format-*
+    # doesn't have to be installed
+    container: esphome/esphome-lint:latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 💣 Clone esphome project
+        run: git clone -b ${{ env.esphome_version }} https://github.com/esphome/esphome.git
+      - name: 💣 Copy component into the esphome project
+        run: |
+          cp -r ../components/* esphome/components/
+          git config user.name "ci"
+          git config user.email "ci@github.com"
+          git add .
+          git commit -a -m "Add external component"
+        working-directory: ${{ env.esphome_directory }}
+
+      # Set up the pio project so that the cpp checks know how files are compiled
+      # (build flags, libraries etc)
+      - name: Set up platformio environment
+        run: pio init --ide atom
+        working-directory: ${{ env.esphome_directory }}
+
+      - name: Register problem matchers
+        run: |
+          echo "::add-matcher::.github/workflows/matchers/clang-tidy.json"
+          echo "::add-matcher::.github/workflows/matchers/gcc.json"
+      # Can be removed as soon as esphome-lint container is fixed
+      - name: Add missing pexpect
+        run: pip install pexpect
+      - name: Run lint-cpp
+        run: script/lint-cpp -c
+        working-directory: ${{ env.esphome_directory }}
+      - name: Suggest changes
+        run: script/ci-suggest-changes
+        working-directory: ${{ env.esphome_directory }}
+
+  lint-python:
+    env:
+      esphome_directory: esphome
+      esphome_version: 2022.10.2
+    # Don't use the esphome-lint docker image because it may contain outdated requirements.
+    # This way, all dependencies are cached via the cache action.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Cache pip modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: esphome-pip-3.9-${{ hashFiles('setup.py') }}
+          restore-keys: |
+            esphome-pip-3.9-
+
+      - name: 💣Clone esphome project
+        run: git clone -b ${{ env.esphome_version }} https://github.com/esphome/esphome.git
+      - name: 💣Copy component into the esphome project
+        run: |
+          cp -r ../components/* esphome/components/
+          git config user.name "ci"
+          git config user.email "ci@github.com"
+          git add .
+          git commit -a -m "Add external component"
+        working-directory: ${{ env.esphome_directory }}
+
+      - name: Set up python environment
+        run: script/setup
+        working-directory: ${{ env.esphome_directory }}
+
+      - name: Register problem matchers
+        run: |
+          echo "::add-matcher::.github/workflows/matchers/ci-custom.json"
+          echo "::add-matcher::.github/workflows/matchers/lint-python.json"
+          echo "::add-matcher::.github/workflows/matchers/python.json"
+
+      - name: Lint Custom
+        run: script/ci-custom.py -c
+        working-directory: ${{ env.esphome_directory }}
+      - name: Lint Python
+        run: script/lint-python -c
+        working-directory: ${{ env.esphome_directory }}
