@@ -22,11 +22,11 @@ jobs:
   lint-clang-format:
     env:
       esphome_directory: esphome
-      esphome_version: 2022.10.2
+      esphome_version: 2022.12.3
     runs-on: ubuntu-latest
     # cpp lint job runs with esphome-lint docker image so that clang-format-*
     # doesn't have to be installed
-    container: esphome/esphome-lint:2022.10.2
+    container: esphome/esphome-lint:2022.12.3
     steps:
       - uses: actions/checkout@v2
       # Set up the pio project so that the cpp checks know how files are compiled
@@ -60,11 +60,11 @@ jobs:
   lint-clang-tidy:
     env:
       esphome_directory: esphome
-      esphome_version: 2022.10.2
+      esphome_version: 2022.12.3
     runs-on: ubuntu-latest
     # cpp lint job runs with esphome-lint docker image so that clang-format-*
     # doesn't have to be installed
-    container: esphome/esphome-lint:2022.10.2
+    container: esphome/esphome-lint:2022.12.3
     steps:
       - uses: actions/checkout@v2
 
@@ -109,7 +109,7 @@ jobs:
   lint-python:
     env:
       esphome_directory: esphome
-      esphome_version: 2022.10.2
+      esphome_version: 2022.12.3
     # Don't use the esphome-lint docker image because it may contain outdated requirements.
     # This way, all dependencies are cached via the cache action.
     runs-on: ubuntu-latest
