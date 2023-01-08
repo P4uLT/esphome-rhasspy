@@ -58,14 +58,7 @@ def to_code(config):
     cg.add(var.set_bits_per_sample(config[CONF_BITS_PER_SAMPLE]))
 
     if CORE.is_esp32:
-        cg.add_platformio_option("platform", "platformio/espressif32 @ 4.2.0")
-        cg.add_platformio_option(
-            "platform_packages",
-            ["platformio/framework-arduinoespressif32 @ 3.20002.220503"],
-        )
         cg.add_library("WiFiClientSecure", None)
         cg.add_library("HTTPClient", None)
-        cg.add_library(
-            "https://github.com/pschatzmann/arduino-audio-tools#2711b0f", None
-        )
+        cg.add_library("https://github.com/pschatzmann/arduino-audio-tools", None)
         cg.add_library("https://github.com/digint/tinyfsm", None)
